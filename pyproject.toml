@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyperscale-water-geography"
+version = "0.1.0"
+description = "Reproducibility materials for hyperscale data-center water geography analysis"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas",
+  "geopandas",
+  "numpy",
+  "matplotlib",
+  "shapely",
+  "pyproj",
+  "fiona",
+  "openpyxl",
+  "PyYAML",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

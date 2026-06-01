@@ -1,0 +1,40 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Local config with private paths
+scripts/config.yml
+
+# Raw/private data - keep out of public GitHub
+data/raw/*
+!data/raw/.gitkeep
+data/private/
+data/vendor/
+data/confidential/
+data/baxtel/
+data/*raw*
+data/*private*
+data/*confidential*
+
+# Keep processed folder placeholder; add public-safe processed files intentionally with git add -f if needed
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated outputs
+outputs/figures/*
+!outputs/figures/.gitkeep
+outputs/tables/*
+!outputs/tables/.gitkeep
+
+# Logs
+*.log

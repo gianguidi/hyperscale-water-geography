@@ -1,0 +1,21 @@
+name: hyperscale-water-geography
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - geopandas
+  - numpy
+  - matplotlib
+  - shapely
+  - pyproj
+  - fiona
+  - openpyxl
+  - pyyaml
+  - jupyterlab
+  - notebook
+  - ipykernel
+  - contextily
+  - pip
+  - pip:
+      - nbclient

@@ -1,0 +1,16 @@
+# Example local configuration for the water-consumption workflow.
+# Copy this file to scripts/config.yml and edit paths if needed.
+# Do not commit scripts/config.yml if it contains private local paths.
+
+facilities_geofile:
+facilities_table: data/raw/facilities.csv
+
+ba_polygons: data/raw/balancing_authorities_polygons/balancing_authorities_EPA.shp
+ba_mix_table: data/raw/BA_egrid.xlsx
+
+basins_polygons: data/raw/hydrobasins/hybas_lake_na_lev06_v1c.shp
+aqueduct_table: data/raw/aqueduct/Aqueduct40_baseline_monthly_y2023m07d05.csv
+
+states48: https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_state_20m.zip
+
+outdir: outputs

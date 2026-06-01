@@ -1,0 +1,14 @@
+pandas
+geopandas
+numpy
+matplotlib
+shapely
+pyproj
+fiona
+openpyxl
+PyYAML
+jupyterlab
+notebook
+ipykernel
+contextily
+nbclient
