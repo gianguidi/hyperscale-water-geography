@@ -2,87 +2,92 @@
 
 Reproducibility materials for the manuscript:
 
-**The hidden water geography of U.S. hyperscale data centers in the AI era**
+**One footprint, many maps: the hidden geography of U.S. data-centre water use**
 
-This repository contains the analysis notebook, environment file, repository checks, and placeholders for non-public input data. The workflow estimates operational water consumption for U.S. hyperscale data centers by separating:
+Authors: Gianluca Guidi and Francesca Dominici
 
-1. **Direct cooling water consumption** linked to hydrologic basins.
-2. **Electricity-related water consumption** linked to electricity balancing authorities.
+This repository is being updated to match the substantially revised manuscript transferred to **Nature Water** on 5 October 2026. The transfer version replaces the earlier regional reporting path that produced internally inconsistent regional totals.
 
-## Repository structure
+## Transfer-version headline results
 
-```text
-notebooks/
-  water_consumption_hyp_clean_updated.ipynb
+The current manuscript uses a 15 December 2025 Baxtel snapshot containing 472 provider-defined U.S. hyperscale records and 20,041 MW of reported current capacity, interpreted in the primary model as facility-input nameplate power.
 
-scripts/
-  config.example.yml
-  smoke_test_repository.py
-  clear_notebook_outputs.py
+| Scenario | Facility electricity (TWh/yr) | On-site water (GL/yr) | Electricity-related water (GL/yr) | Total (GL/yr) |
+|---|---:|---:|---:|---:|
+| Lower-load/lower-water | 96.56 | 16.79 | 188.11 | 204.91 |
+| Baseline/reference | 115.87 | 74.16 | 225.74 | 299.89 |
+| Higher-load/water-intensive | 149.22 | 159.88 | 290.72 | 450.60 |
+| No hydropower attribution | 115.87 | 74.16 | 128.35 | 202.50 |
 
-data/
-  raw/          # place local/raw inputs here; not publicly distributed
-  processed/    # optional processed/synthetic/anonymized inputs
+Additional transfer-version screening results:
 
-outputs/
-  figures/      # generated manuscript figures
-  tables/       # generated manuscript tables
+- 63 positive-burden facility-hosting HydroBASINS level-6 basins;
+- 62 of those basins have valid annual Aqueduct context;
+- 10 of 63 hosting basins reach at least 50% of modeled on-site consumption;
+- 24 facility-hosting balancing authorities (BAs);
+- 3 of 24 hosting BAs reach at least 50% of modeled electricity-related consumption;
+- annual Aqueduct baseline water stress (BWS) score >= 3 flags 25 hosting basins, 15 of which also have at-least-median on-site burden;
+- annual baseline water depletion (BWD) score >= 3 flags 7 hosting basins, 6 of which also have at-least-median on-site burden.
 
-src/
-  hyperscale_water_geography/
-```
+These are scenario-based screening outputs, not facility-metered water use, ecological impact estimates, or plant-level electricity tracing.
 
-## Data availability and restrictions
+## Current analytical framing
 
-The underlying facility-level dataset may contain commercially sensitive information. Do **not** commit raw facility identifiers, addresses, exact coordinates, or vendor-provided files unless they are cleared for public release. Public versions of this repository should include only synthetic, anonymized, or aggregated data products.
+The revised workflow separates two operational pathways:
 
-Expected local input paths used by the notebook are listed in `scripts/config.example.yml`.
+1. **On-site water consumption**, screened in the facility-hosting HydroBASINS level-6 basin.
+2. **Electricity-related water consumption**, attributed using the annual production mix of the facility-hosting BA.
+
+The two spatial partitions are not physically commensurate. Concentration results are therefore interpreted within each partition rather than as a scale-free test that one pathway is intrinsically more clustered.
+
+## Repository status
+
+The public repository is being aligned with the Nature Water transfer in two layers:
+
+- **Current transfer-facing aggregate outputs and documentation** are provided under `outputs/tables/`, `SUBMISSION_SNAPSHOT.md`, and `REPRO.md`.
+- `notebooks/water_consumption_hyp_clean_updated.ipynb` is retained for provenance from the earlier manuscript version and **must not be treated as the canonical source of the transferred regional figures**. The corrected canonical analysis package should replace or supersede it in the versioned release corresponding to the accepted manuscript.
+
+This distinction is intentional: the licensed facility-level Baxtel records cannot be redistributed, and the revised manuscript explicitly separates reproduction of released aggregate outputs from full reconstruction of the proprietary facility-to-geography joins.
+
+## Reproducibility boundary
+
+The corrected workflow is defined around one immutable facility-by-scenario table and mandatory validation contracts covering:
+
+- unique facility-scenario rows;
+- required spatial assignments;
+- normalized BA generation shares;
+- non-negative electricity and water quantities;
+- additive identity `W_total = W_onsite + W_electricity`;
+- state, BA and basin aggregation conservation;
+- ranked-subset totals no greater than the corresponding national total;
+- scenario isolation for the no-hydropower sensitivity.
+
+See `REPRO.md` for the full boundary and input vintages.
+
+## Data restrictions
+
+The source facility inventory was supplied under a commercial third-party licence by **Baxtel**. Do not commit provider-supplied identifiers, exact coordinates, addresses, or other restricted record-level fields. Independent reconstruction of the source inventory requires lawful access obtained directly from Baxtel under its applicable terms.
+
+Public inputs used by the analysis include EPA eGRID2023 Revision 2, WRI Aqueduct 4.0, HydroBASINS level 6, a project-archived WattTime BA boundary layer, and U.S. Census boundaries.
 
 ## Environment
-
-Create the conda environment:
 
 ```bash
 conda env create -f environment.yml
 conda activate hyperscale-water-geography
 ```
 
-Or install the Python dependencies with pip:
+or:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Smoke test
-
-Run this before pushing to GitHub:
+## Public snapshot validation
 
 ```bash
+python scripts/validate_submission_snapshot.py
 python scripts/smoke_test_repository.py
 ```
 
-The smoke test checks the repository structure, validates the notebook JSON, and scans for common local hard-coded paths.
-
-## Running the analysis
-
-Open and run:
-
-```text
-notebooks/water_consumption_hyp_clean_updated.ipynb
-```
-
-The notebook writes outputs to:
-
-```text
-outputs/
-```
-
-## Suggested Git workflow
-
-```bash
-git status
-python scripts/smoke_test_repository.py
-git add README.md REPRO.md environment.yml requirements.txt .gitignore scripts notebooks src data/raw/.gitkeep data/processed/.gitkeep outputs/figures/.gitkeep outputs/tables/.gitkeep
-git commit -m "Initialize reproducibility repository for water manuscript"
-git push -u origin main
-```
+The first command checks the arithmetic and key invariants in the public transfer-version aggregate tables. It does **not** substitute for rerunning the licensed facility-level analysis.
