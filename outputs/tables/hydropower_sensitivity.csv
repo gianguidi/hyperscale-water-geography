@@ -1,0 +1,4 @@
+case,hydropower_factor_l_per_kwh,electricity_related_water_gl_yr,total_water_gl_yr,electricity_related_share_pct,change_from_reference_electricity_gl_yr,change_from_reference_electricity_pct
+reference,8.0,225.74,299.89,75.27,0.00,0.0
+zero_hydropower,0.0,128.35,202.50,63.38,-97.39,-43.1
+us_average_net_freshwater_comparison,6.1,202.6,276.8,,,
