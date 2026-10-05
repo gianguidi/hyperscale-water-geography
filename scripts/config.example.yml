@@ -1,15 +1,24 @@
-# Example local configuration for the water-consumption workflow.
+# Example local configuration for the corrected transfer-version workflow.
 # Copy this file to scripts/config.yml and edit paths if needed.
 # Do not commit scripts/config.yml if it contains private local paths.
 
 facilities_geofile:
 facilities_table: data/raw/facilities.csv
 
+# EPA eGRID2023 Revision 2 BA-level resource mix.
 ba_polygons: data/raw/balancing_authorities_polygons/balancing_authorities_EPA.shp
+ba_polygon_join_field: region_B_1
 ba_mix_table: data/raw/BA_egrid.xlsx
 
+# HydroBASINS level 6, North America v1c.
 basins_polygons: data/raw/hydrobasins/hybas_lake_na_lev06_v1c.shp
-aqueduct_table: data/raw/aqueduct/Aqueduct40_baseline_monthly_y2023m07d05.csv
+
+# Local convention for the Aqueduct 4.0 ANNUAL baseline table.
+# The file used for the reported transfer results must contain bws_score and
+# bwd_score. Do not point this at the earlier monthly Aqueduct export.
+aqueduct_table: data/raw/aqueduct/Aqueduct40_baseline_annual.csv
+aqueduct_bws_field: bws_score
+aqueduct_bwd_field: bwd_score
 
 states48: https://www2.census.gov/geo/tiger/GENZ2023/shp/cb_2023_us_state_20m.zip
 
