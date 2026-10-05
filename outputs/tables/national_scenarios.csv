@@ -1,0 +1,5 @@
+scenario,facility_electricity_twh_yr,onsite_water_gl_yr,electricity_related_water_gl_yr,total_water_gl_yr,onsite_share_pct,electricity_related_share_pct
+lower-load/lower-water,96.56,16.79,188.11,204.91,8.20,91.80
+baseline/reference,115.87,74.16,225.74,299.89,24.73,75.27
+higher-load/water-intensive,149.22,159.88,290.72,450.60,35.48,64.52
+no-hydropower-attribution,115.87,74.16,128.35,202.50,36.62,63.38
