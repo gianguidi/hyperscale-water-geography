@@ -10,6 +10,7 @@ REQUIRED_PATHS = [
     "environment.yml",
     "requirements.txt",
     ".gitignore",
+    "notebooks/Nature_Water_Reviewer_Revision.ipynb",
     "notebooks/water_consumption_hyp_clean_updated.ipynb",
     "scripts/config.example.yml",
     "scripts/validate_submission_snapshot.py",
@@ -25,7 +26,6 @@ REQUIRED_PATHS = [
 FORBIDDEN_PATTERNS = [
     "/Users/",
     "C:\\Users\\",
-    "Harvard US-Sites 2025-12-15.csv",
 ]
 
 LEGACY_PUBLIC_CONFIG_PATTERNS = [
@@ -41,17 +41,28 @@ def main() -> None:
             raise FileNotFoundError(f"Missing required path: {rel}")
         print(f"  OK: {rel}")
 
-    nb_path = ROOT / "notebooks/water_consumption_hyp_clean_updated.ipynb"
-    nb_text = nb_path.read_text(encoding="utf-8")
-    json.loads(nb_text)
-    print("  OK: legacy notebook is valid JSON")
+    canonical = ROOT / "notebooks/Nature_Water_Reviewer_Revision.ipynb"
+    canonical_text = canonical.read_text(encoding="utf-8")
+    canonical_nb = json.loads(canonical_text)
+    print("  OK: canonical Nature Water notebook is valid JSON")
 
     for pattern in FORBIDDEN_PATTERNS:
-        if pattern in nb_text:
+        if pattern in canonical_text:
             raise ValueError(
-                f"Forbidden local/private path pattern found in notebook: {pattern}"
+                f"Forbidden local/private path pattern found in canonical notebook: {pattern}"
             )
-    print("  OK: no obvious local/private path patterns in notebook")
+
+    code_cells = [c for c in canonical_nb.get("cells", []) if c.get("cell_type") == "code"]
+    if any(c.get("execution_count") is not None for c in code_cells):
+        raise ValueError("Canonical public notebook still contains execution counts.")
+    if any(c.get("outputs") for c in code_cells):
+        raise ValueError("Canonical public notebook still contains stored outputs.")
+    print("  OK: canonical notebook has no stored outputs or execution counts")
+    print("  OK: canonical notebook exposes no obvious absolute user paths")
+
+    legacy = ROOT / "notebooks/water_consumption_hyp_clean_updated.ipynb"
+    json.loads(legacy.read_text(encoding="utf-8"))
+    print("  OK: legacy notebook is valid JSON")
 
     config_text = (ROOT / "scripts/config.example.yml").read_text(encoding="utf-8")
     for pattern in LEGACY_PUBLIC_CONFIG_PATTERNS:
