@@ -1,0 +1,12 @@
+metric,value
+inventory_records,472
+reported_current_capacity_mw,20041
+positive_burden_hosting_basins,63
+hosting_basins_with_valid_annual_aqueduct_context,62
+basins_to_reach_ge_50pct_onsite,10
+hosting_balancing_authorities,24
+bas_to_reach_ge_50pct_electricity_related,3
+bws_score_ge_3_hosting_basins,25
+bws_score_ge_3_and_ge_median_onsite_burden,15
+bwd_score_ge_3_hosting_basins,7
+bwd_score_ge_3_and_ge_median_onsite_burden,6
